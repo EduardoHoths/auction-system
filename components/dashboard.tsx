@@ -18,8 +18,6 @@ export function Dashboard() {
     },
   });
 
-  console.log(auctions);
-
   return (
     <div className="container mx-auto p-6">
       <Tabs
