@@ -1,11 +1,9 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3000/api/auth";
+import { api, baseURL } from "./api";
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+  const confirmLink = `${baseURL}/auth/new-verification?token=${token}`;
   try {
-    await axios.post(`${API_URL}/confirm-email`, {
+    await api.post(`/api/auth/confirm-email`, {
       email,
       confirmLink,
     });
@@ -15,9 +13,9 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const resetLink = `${baseURL}/auth/new-password?token=${token}`;
   try {
-    await axios.post(`${API_URL}/reset-password`, {
+    await api.post(`/api/auth/reset-password`, {
       email,
       resetLink,
     });
@@ -28,7 +26,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
   try {
-    await axios.post(`${API_URL}/two-factor-token`, {
+    await api.post(`/api/auth/two-factor-token`, {
       email,
       token,
     });

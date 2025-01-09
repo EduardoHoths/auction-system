@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import socket from "@/socket";
 import { useSession } from "next-auth/react";
 
-import axios from "axios";
+import { api } from "@/lib/api";
 import { useEffect } from "react";
 
 const bidFormSchema = z.object({
@@ -43,8 +43,8 @@ export function BidForm({ auctionId, currentBid }: BidFormProps) {
 
   async function onSubmit(values: z.infer<typeof bidFormSchema>) {
     try {
-      await axios.post(
-        `http://localhost:3000/api/auctions/${auctionId}/bid`,
+      await api.post(
+        `/api/auctions/${auctionId}/bid`,
         values
       );
 
