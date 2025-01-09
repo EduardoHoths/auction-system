@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?   @unique
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bids Bid[]
+}
+
+model VerificationToken {
+  id                   String   @id @default(cuid())
+  email                String
+  token                String   @unique
+  expires              DateTime
+  nextRequestAllowedAt DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id                   String   @id @default(cuid())
+  email                String
+  token                String   @unique
+  expires              DateTime
+  nextRequestAllowedAt DateTime
+
+  @@unique([email, token])
+}
+
+model Auction {
+  id             String   @id @default(cuid())
+  name           String
+  status         String
+  timeToClose    DateTime
+  referencePrice Float
+  currentBid     Float
+
+  bids Bid[]
+}
+
+model Bid {
+  id         String @id @default(cuid())
+  bidderName String
+  user       User   @relation(fields: [bidderName], references: [name])
+  amount     Float
+  auctionId  String
+
+  auction Auction @relation(fields: [auctionId], references: [id])
+}
